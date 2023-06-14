@@ -32,7 +32,7 @@ if web_apps == "Exploratory Data Analysis":
 
 
     column_type = st.sidebar.selectbox('Select Data Type',
-                                       ("Numerical", "Categorical", "Bool", "Date"))
+                                       ("Numerical", "Categorical"))
 
     if column_type == "Numerical":
       numerical_column = st.sidebar.selectbox(
@@ -113,39 +113,4 @@ if web_apps == "Exploratory Data Analysis":
         )
     
 
-    if column_type == "Bool":
-      bool_column = st.sidebar.selectbox(
-          'Select a Column', df.select_dtypes(include=['bool']).columns)
-      
-      # histogram
-      choose_color = st.color_picker('Pick a Color', "#69b3a2")
-      choose_opacity = st.slider(
-          'Color Opacity', min_value=0.0, max_value=1.0, step=0.05, value = 1.0)
-
-      hist_title = st.text_input('Set Title', 'Histogram')
-      hist_xtitle = st.text_input('Set x-axis Title', bool_column)
-
-      fig, ax = plt.subplots()
-      ax.hist(df[bool_column],
-              edgecolor="black", color=choose_color, alpha=choose_opacity)
-      ax.set_title(hist_title)
-      ax.set_xlabel(hist_xtitle)
-      ax.set_ylabel('Count')
-
-      st.pyplot(fig)
-      filename = "plot.png"
-      fig.savefig(filename,dpi = 300)
-
-      proportion_stats = (df[bool_column].value_counts() / df[bool_column].count())*100
-
-      st.subheader('Proportion in each category (by percent)')
-      st.table(proportion_stats)
-
-      # Display the download button
-      with open("plot.png", "rb") as file:
-        btn = st.download_button(
-            label="Download image",
-            data=file,
-            file_name="flower.png",
-            mime="image/png"
-        )
+    
